@@ -157,10 +157,17 @@ def load_custom(path: Optional[str], cls_names: Tuple[str, str]) -> Tuple[type, 
             spec.loader.exec_module(module)  # type: ignore
         else:
             module = importlib.import_module(path)
-        parsed = getattr(module, parsed_name, DefaultParsed)
-        req = getattr(module, req_name, DefaultRequests)
-        print(Fore.GREEN + f"[+] 使用自定义解析类: {parsed.__name__}")
-        print(Fore.GREEN + f"[+] 使用自定义请求类: {req.__name__}")
+
+        if cls_names[0]:
+            parsed = getattr(module, parsed_name, DefaultParsed)
+            print(Fore.GREEN + f"[+] 使用自定义解析类: {parsed.__name__}")
+        else:
+            parsed = DefaultParsed
+        if cls_names[1]:
+            req = getattr(module, req_name, DefaultRequests)
+            print(Fore.GREEN + f"[+] 使用自定义请求类: {req.__name__}")
+        else:
+            req = DefaultRequests
         return parsed, req
     except Exception as e:
         print(Fore.YELLOW + f"[!] 加载自定义模块失败 ({path}): {e}, 使用默认类")
