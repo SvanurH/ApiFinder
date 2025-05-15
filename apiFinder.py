@@ -233,6 +233,7 @@ def main():
     for url in cleaned:
         print(url)
     if args.output:
+
         file = open(args.output, 'a+', encoding='utf-8')
         for url in cleaned:
             file.write(url + '\n')
